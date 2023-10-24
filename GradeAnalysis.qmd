@@ -55,6 +55,11 @@ Grades |>
 ```
 
 
+## Question 6 
+
+```{r}
+ggplot(Grades,aes(x=Group)) + geom_bar(width = 0.5)
+```
 
 
 
