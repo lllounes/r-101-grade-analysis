@@ -40,6 +40,19 @@ NotExam <- Grades |> group_by(Exam) |> summarise(Total=n()) |> slice(nrow(Grades
 ```
 
 The number of students who did not take the final exam is `r NotExam[,2]`
+  
+## Question 4
+```{r}
+ggplot(Grades,aes(x=Exam)) + geom_bar()
+```
+
+## Question 5
+```{r}
+Grades |>
+  group_by(Group) |>
+  summarise(Total=n()) |>
+  knitr::kable()
+```
 
 
 
