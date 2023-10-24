@@ -34,7 +34,12 @@ Grades |>
   knitr::kable()
 ```
 
+## Question 3
+```{r}
+NotExam <- Grades |> group_by(Exam) |> summarise(Total=n()) |> slice(nrow(Grades |> group_by(Exam) |> summarise(Total=n())))
+```
 
+The number of students who did not take the final exam is `r NotExam[,2]`
 
 
 
