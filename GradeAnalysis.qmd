@@ -14,7 +14,6 @@ library(tidyr)
 library(ggplot2)
 ```
 
-
 ## Question 1
 
 ```{r}
@@ -22,7 +21,7 @@ library(ggplot2)
 i_am("r-101-grade-analysis.Rproj")
 Grades <- vroom(here("grades.csv"))
 ```
-   
+
 ## Question 2
 
 ```{r}
@@ -35,18 +34,21 @@ Grades |>
 ```
 
 ## Question 3
+
 ```{r}
 NotExam <- Grades |> group_by(Exam) |> summarise(Total=n()) |> slice(nrow(Grades |> group_by(Exam) |> summarise(Total=n())))
 ```
 
 The number of students who did not take the final exam is `r NotExam[,2]`
-  
+
 ## Question 4
+
 ```{r}
 ggplot(Grades,aes(x=Exam)) + geom_bar()
 ```
 
 ## Question 5
+
 ```{r}
 Grades |>
   group_by(Group) |>
@@ -54,28 +56,104 @@ Grades |>
   knitr::kable()
 ```
 
-
-## Question 6 
+## Question 6
 
 ```{r}
 ggplot(Grades,aes(x=Group)) + geom_bar(width = 0.5)
 ```
 
-## Question 7 
+## Question 7
 
-First representation : 
+First representation :
+
 ```{r}
 ggplot(Grades, aes(y=Exam, fill=Group)) + geom_bar(position="fill")
 ```
-Second representation : 
+
+Second representation :
+
 ```{r}
 ggplot(Grades, aes(x=Exam)) + geom_bar() + facet_wrap(~Group)
 ```
 
 ## Question 8
 
+```{r}
+Grades |>
+  group_by(Group) |>
+  summarise(Total=sum(is.na(Exam))) |>
+  knitr::kable()
+```
 
 
+## Question 9
+
+## Question 10
+
+```{r}
+LongGrades<-Grades %>%
+  pivot_longer(cols=c(Exam,MCQ_1,MCQ_2,MCQ_3,MCQ_4,MCQ_5,MCQ_6,MCQ_7,MCQ_8,MCQ_9,MCQ_10,Online_MCQ_1,Online_MCQ_2,Online_MCQ_3,Online_MCQ_4,Online_MCQ_5,Online_MCQ_6,Online_MCQ_7,Online_MCQ_8,Online_MCQ_9,Online_MCQ_10,Online_MCQ_11,Online_MCQ_12,Online_MCQ_13,Online_MCQ_14,Online_MCQ_15,Online_MCQ_16,Online_MCQ_17,Online_MCQ_18,Online_MCQ_19))
+```
+
+
+## Question 11
+```{r}
+LongGrades |>
+  group_by(Id) |>
+  summarise(Missed=sum(is.na(value))) |>
+  knitr::kable()
+```
+
+## Question 12
+```{r}
+MissedVal <- LongGrades |>
+  group_by(Id) |>
+  summarise(Missed=sum(is.na(value)))
+  
+ggplot(MissedVal, aes(x=Missed)) +
+  geom_histogram(binwidth = 1, fill = "lightblue", color = "black") +
+  labs(title = "Distribution of Missing Grades per Student",
+       x = "Number of Missing Grades",
+       y = "Frequency")
+```
+
+## Question 13
+
+```{r}
+LongGrades|>
+  filter(stringr::str_starts(name, "Exam")) |>
+  group_by(Group) |>
+  summarise(Total=sum(is.na(value))) |>
+  knitr::kable()
+```
+
+
+## Question 14
+```{r}
+LongGrades|>
+  filter(stringr::str_starts(name, "Online")) |>
+  group_by(Id) |>
+  summarise(Total=sum(is.na(value))) |>
+  knitr::kable()
+```
+
+## Question 15
+```{r}
+#missing_online_test_count <- Grades |>
+    #rowwise() |>
+    #mutate(CountMissingOnlineTests = sum(c_across(stringr::str_starts("Online")), na.rm = TRUE))
+
+```
+
+## Question 16
+```{r}
+MissedMCQ <- Grades |>
+  select(Id, starts_with("MCQ_")) |>
+  rowwise() |>
+  summarize(Missed = any(is.na(c_across(starts_with("MCQ_")))))
+```
+
+## Question 17
 
 
 
