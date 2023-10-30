@@ -62,9 +62,22 @@ Grades |>
 ggplot(Grades,aes(x=Group)) + geom_bar(width = 0.5)
 ```
 
+<<<<<<< HEAD
 ## Question 7
 
 First representation :
+=======
+## Question 7 
+
+First representation : 
+```{r}
+ggplot(Grades, aes(y=Exam, fill=Group)) + geom_bar(position="fill")
+```
+Second representation : 
+```{r}
+ggplot(Grades, aes(x=Exam)) + geom_bar() + facet_wrap(~Group)
+```
+>>>>>>> d6055aab14bded161442c82fb2b7baff3ed1e04f
 
 ```{r}
 ggplot(Grades, aes(y=Exam, fill=Group)) + geom_bar(position="fill")
